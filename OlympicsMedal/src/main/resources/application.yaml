@@ -1,0 +1,42 @@
+spring:
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
+
+  # Define exchanges, queues, and bindings
+  rabbitmq:
+    exchanges:
+      goldMedalExchange:
+        type: direct
+        durable: true
+      athleteExchange:
+        type: direct
+        durable: true
+      sponsorExchange:
+        type: direct
+        durable: true
+      medalCountExchange:
+        type: direct
+        durable: true
+    queues:
+      athleteProfileQueue:
+        durable: true
+      sponsorNotificationQueue:
+        durable: true
+      medalCountQueue:
+        durable: true
+    bindings:
+      athleteProfileBinding:
+        exchange: goldMedalExchange
+        routingKey: athlete.goldmedal
+        queue: athleteProfileQueue
+      sponsorNotificationBinding:
+        exchange: athleteExchange
+        routingKey: athlete.notify
+        queue: sponsorNotificationQueue
+      medalCountBinding:
+        exchange: sponsorExchange
+        routingKey: medal.update
+        queue: medalCountQueue
